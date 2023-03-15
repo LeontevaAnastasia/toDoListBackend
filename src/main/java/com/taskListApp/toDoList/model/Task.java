@@ -1,9 +1,15 @@
 package com.taskListApp.toDoList.model;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public class task {
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@ToString
+public class Task {
 
     private String header;
     private String description;
