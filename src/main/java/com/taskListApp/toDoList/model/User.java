@@ -3,18 +3,17 @@ import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @Table(name = "users")
-public class User extends BaseEntity {
+public class User extends AbstractBaseEntity {
     @Column(name = "name")
     private String name;
 
@@ -50,5 +49,16 @@ public class User extends BaseEntity {
         this.registered = registered;
         this.enabled = enabled;
         this.roles=roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email=" + email +
+                ", name=" + name +
+                ", enabled=" + enabled +
+                ", roles=" + roles +
+                '}';
     }
 }

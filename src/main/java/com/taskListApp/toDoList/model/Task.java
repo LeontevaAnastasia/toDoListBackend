@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 @Table(name = "tasks")
-public class Task extends BaseEntity {
+public class Task extends AbstractBaseEntity {
 
     @Column(name = "header")
     private String header;
