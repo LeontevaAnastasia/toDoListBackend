@@ -1,23 +1,44 @@
 package com.taskListApp.toDoList.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @ToString
-public class Task {
+@Table(name = "tasks")
+public class Task extends BaseEntity {
 
+    @Column(name = "header")
     private String header;
+
+    @Column(name = "description")
     private String description;
+    @Column(name = "completed")
     private boolean completed;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @Column(name = "date_time_complete")
     LocalDateTime dateTimeComplete;
 
-
+    public Task(Integer id, String header, String description, boolean completed, User user, LocalDateTime dateTimeComplete) {
+        super(id);
+        this.header = header;
+        this.description = description;
+        this.completed = completed;
+        this.user = user;
+        this.dateTimeComplete = dateTimeComplete;
+    }
 
 
 }
