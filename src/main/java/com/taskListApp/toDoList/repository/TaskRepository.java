@@ -6,9 +6,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer> {
 
-    @Query("delete from Task t where t.id=:id")
-    int delete(@Param("id") int id);
+    @Query("delete from Task t where t.id=:id and t.user.id=:userId")
+    int delete(@Param("id") int id, @Param("userId") int userId);
+
+    @Query("select t from Task t where t.id=:id and t.user.id=:userId")
+    Optional<Task> getTaskById(@Param("id") int id, @Param("userId") int userId);
+
+    @Query("select t from Task t where t.user.id=:userId")
+    Optional<List<Task>> getAll(@Param("userId") int userId);
 }

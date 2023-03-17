@@ -6,6 +6,11 @@ import com.taskListApp.toDoList.to.UserTo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
+import static com.taskListApp.toDoList.util.UserUtil.updateFromTo;
+import static com.taskListApp.toDoList.util.ValidationUtil.checkNotFound;
+import static com.taskListApp.toDoList.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class UserService {
@@ -21,15 +26,15 @@ public class UserService {
     }
 
     public User get(int id) {
-        return userRepository.getById(id);
+        return checkNotFoundWithId(userRepository.getUserById(id), id);
     }
 
-   public User findByEmailIgnoringCase(String email){
-        return userRepository.findByEmailIgnoreCase(email);
+   public Optional<User> findByEmailIgnoringCase(String email){
+        return checkNotFound(userRepository.findByEmailIgnoreCase(email),"email=" + email);
     }
 
     public void delete(int id) {
-        userRepository.delete(id);
+        checkNotFoundWithId(userRepository.delete(id), id);
     }
 
     public List<User> getAll() {
@@ -42,12 +47,6 @@ public class UserService {
         updateFromTo(user, userTo);
     }
 
-    public static User updateFromTo(User user, UserTo userTo) {
-        user.setName(userTo.getName());
-        user.setEmail(userTo.getEmail().toLowerCase());
-        user.setPassword(userTo.getPassword());
-        return user;
-    }
 
 
 }
