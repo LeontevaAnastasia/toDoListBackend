@@ -4,6 +4,10 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -15,17 +19,23 @@ import java.util.Set;
 @Table(name = "users")
 public class User extends AbstractBaseEntity {
     @Column(name = "name")
+    @Size(min =1, max = 128)
     private String name;
 
     @Column(name = "email")
+    @Email
+    @NotEmpty
+    @Size(min=1, max = 128)
     private String email;
 
     @Column(name = "password")
+    @Size(min = 4, max = 100)
     private String password;
-    @Column(name = "enabled")
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
     private boolean enabled = true;
 
-    @Column(name = "registered")
+    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
+    @NotNull
     private LocalDate registered;
 
     @Enumerated(EnumType.STRING)
