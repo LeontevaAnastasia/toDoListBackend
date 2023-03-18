@@ -1,5 +1,7 @@
 package com.taskListApp.toDoList.util;
 
+import com.taskListApp.toDoList.HasId;
+import com.taskListApp.toDoList.util.exception.IllegalRequestDataException;
 import com.taskListApp.toDoList.util.exception.NotFoundException;
 
 import java.util.Optional;
@@ -32,5 +34,19 @@ public class ValidationUtil {
 
     public static <T> T checkNotFoundWithId(Optional<T> optional, String msg) {
         return optional.orElseThrow(() -> new NotFoundException(msg));
+    }
+
+    public static void checkNew(HasId bean) {
+        if (!bean.isNew()) {
+            throw new IllegalRequestDataException(bean.getClass().getSimpleName() + " must be new (id=null)");
+        }
+    }
+
+    public static void assureIdConsistent(HasId bean, int id) {
+        if (bean.isNew()) {
+            bean.setId(id);
+        } else if (bean.id() != id) {
+            throw new IllegalRequestDataException(bean.getClass().getSimpleName() + " must be with id=" + id);
+        }
     }
 }

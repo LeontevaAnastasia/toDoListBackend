@@ -1,4 +1,5 @@
 package com.taskListApp.toDoList.model;
+import com.taskListApp.toDoList.HasId;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Access(AccessType.FIELD)
-public abstract class AbstractBaseEntity {
+public abstract class AbstractBaseEntity implements HasId {
 
     public static final int START_SEQ = 100000;
 
