@@ -3,6 +3,7 @@ package com.taskListApp.toDoList.service;
 import com.taskListApp.toDoList.model.User;
 import com.taskListApp.toDoList.repository.UserRepository;
 import com.taskListApp.toDoList.to.UserTo;
+import com.taskListApp.toDoList.util.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,6 +46,14 @@ public class UserService {
 
         User user = get(userTo.getId());
         updateFromTo(user, userTo);
+    }
+
+    public void isEnable(int id, boolean enabled) {
+        User user = userRepository.getUserById(id).orElse(null);
+        if (user == null) {
+            throw new NotFoundException("User with id " + id + " doesn't exists.");
+        }
+        user.setEnabled(enabled);
     }
 
 
