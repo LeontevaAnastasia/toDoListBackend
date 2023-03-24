@@ -1,5 +1,6 @@
 package com.taskListApp.toDoList.web.user;
 
+import com.taskListApp.toDoList.AuthorizedUser;
 import com.taskListApp.toDoList.model.User;
 import com.taskListApp.toDoList.to.UserTo;
 import org.springframework.http.HttpStatus;
@@ -40,19 +41,20 @@ public class ProfileController {
     }
 
     @GetMapping()
-    public User get(User user) {
-        return userService.get(user.getId());
+    public User get(AuthorizedUser authUser) {
+        return userService.get(authUser.getId());
     }
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(User user) {
-        userService.delete(user.getId());
+    public void delete(AuthorizedUser authUser) {
+        userService.delete(authUser.getId());
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody UserTo userTo, User user) {
-        assureIdConsistent(userTo, user.getId());
+    public void update(@Valid @RequestBody UserTo userTo, AuthorizedUser authUser) {
+        assureIdConsistent(userTo, authUser.getId());
+        User user = authUser.getUser();
         userService.create(updateFromTo(user, userTo));
     }
 }

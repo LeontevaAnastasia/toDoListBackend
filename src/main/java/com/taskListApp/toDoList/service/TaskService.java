@@ -3,11 +3,14 @@ package com.taskListApp.toDoList.service;
 import com.taskListApp.toDoList.model.Task;
 import com.taskListApp.toDoList.repository.TaskRepository;
 import com.taskListApp.toDoList.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.taskListApp.toDoList.util.ValidationUtil.checkNotFoundWithId;
 
+@Service
 public class TaskService {
 
     TaskRepository taskRepository;
@@ -39,6 +42,13 @@ public class TaskService {
         }
         task.setUser(userRepository.getById(userId));
         return taskRepository.save(task);
+    }
+
+    public void getDone(int taskId, int userId, boolean completed){
+        Task task = get(taskId,userId);
+        task.setCompleted(completed);
+        task.setDateTimeComplete(LocalDateTime.now());
+        update(task, userId);
     }
 
 }
