@@ -3,9 +3,11 @@ package com.taskListApp.toDoList.util;
 import com.taskListApp.toDoList.HasId;
 import com.taskListApp.toDoList.util.exception.IllegalRequestDataException;
 import com.taskListApp.toDoList.util.exception.NotFoundException;
+import lombok.experimental.UtilityClass;
 
 import java.util.Optional;
 
+@UtilityClass
 public class ValidationUtil {
 
     public static <T> T checkNotFoundWithId(T object, int id) {

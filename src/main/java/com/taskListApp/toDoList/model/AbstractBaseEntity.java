@@ -1,4 +1,5 @@
 package com.taskListApp.toDoList.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.taskListApp.toDoList.HasId;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -21,6 +22,7 @@ public abstract class AbstractBaseEntity implements HasId {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     protected Integer id;
 
+    @JsonIgnore
     public boolean isNew() {
         return this.id == null;
     }

@@ -3,10 +3,12 @@ package com.taskListApp.toDoList.util;
 import com.taskListApp.toDoList.model.Role;
 import com.taskListApp.toDoList.model.User;
 import com.taskListApp.toDoList.to.UserTo;
+import lombok.experimental.UtilityClass;
 
 import java.time.LocalDate;
 import java.util.Set;
 
+@UtilityClass
 public class UserUtil {
 
     public static User updateFromTo(User user, UserTo userTo) {

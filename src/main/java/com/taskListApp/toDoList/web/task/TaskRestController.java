@@ -2,8 +2,12 @@ package com.taskListApp.toDoList.web.task;
 
 
 import com.taskListApp.toDoList.model.Task;
+import com.taskListApp.toDoList.model.User;
 import com.taskListApp.toDoList.service.TaskService;
+import com.taskListApp.toDoList.service.UserService;
+import com.taskListApp.toDoList.to.TaskTo;
 import com.taskListApp.toDoList.util.SecurityUtil;
+import com.taskListApp.toDoList.util.TaskUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +27,11 @@ public class TaskRestController {
 
     private final TaskService taskService;
 
-    public TaskRestController(TaskService taskService) {
+    private final UserService userService;
+
+    public TaskRestController(TaskService taskService, UserService userService) {
         this.taskService = taskService;
+        this.userService=userService;
     }
 
 
@@ -51,15 +58,18 @@ public class TaskRestController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Task task, @PathVariable int id) {
+    public void update(@RequestBody TaskTo taskTo, @PathVariable int id) {
         int userId = SecurityUtil.authUserId();
-        assureIdConsistent(task, id);
-        taskService.update(task, userId);
+        assureIdConsistent(taskTo, id);
+        taskService.update(TaskUtil.updateFromTo((taskService.get(id, userId)) ,taskTo) , userId);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Task> createWithLocation(@RequestBody Task task) {
+    public ResponseEntity<Task> createWithLocation(@RequestBody TaskTo taskTo) {
+
         int userId = SecurityUtil.authUserId();
+        User user= userService.get(userId);
+        Task task = TaskUtil.createNewFromTo(taskTo,user);
         checkNew(task);
         Task created = taskService.create(task, userId);
 
