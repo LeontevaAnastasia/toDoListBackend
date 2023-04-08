@@ -40,7 +40,7 @@ public class TaskService {
         if (!task.isNew() && get(task.getId(), userId) == null) {
             return null;
         }
-        task.setUser(userRepository.getById(userId));
+        task.setUser(checkNotFoundWithId(userRepository.getUserById(userId),userId));
         return taskRepository.save(task);
     }
 

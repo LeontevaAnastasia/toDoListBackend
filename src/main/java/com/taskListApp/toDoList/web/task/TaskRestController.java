@@ -8,6 +8,8 @@ import com.taskListApp.toDoList.service.UserService;
 import com.taskListApp.toDoList.to.TaskTo;
 import com.taskListApp.toDoList.util.SecurityUtil;
 import com.taskListApp.toDoList.util.TaskUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,8 @@ public class TaskRestController {
 
     private final UserService userService;
 
+    protected final Logger log = LoggerFactory.getLogger(getClass());
+
     public TaskRestController(TaskService taskService, UserService userService) {
         this.taskService = taskService;
         this.userService=userService;
@@ -37,6 +41,7 @@ public class TaskRestController {
 
     @GetMapping("/{id}")
     public Task get(@PathVariable int id) {
+        log.info("Get task by id {}.", id);
         int userId = SecurityUtil.authUserId();
 
         return taskService.get(id, userId);
@@ -45,6 +50,7 @@ public class TaskRestController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
+        log.info("Delete task by id {}.", id);
 
         int userId = SecurityUtil.authUserId();
         taskService.delete(id, userId);
@@ -52,6 +58,7 @@ public class TaskRestController {
 
     @GetMapping
     public List<Task> getAll() {
+        log.info("Get all tasks");
         int userId = SecurityUtil.authUserId();
         return taskService.getAll(userId);
     }
@@ -59,13 +66,16 @@ public class TaskRestController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestBody TaskTo taskTo, @PathVariable int id) {
+        log.info("update task by id {}.", id);
         int userId = SecurityUtil.authUserId();
         assureIdConsistent(taskTo, id);
         taskService.update(TaskUtil.updateFromTo((taskService.get(id, userId)) ,taskTo) , userId);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Task> createWithLocation(@RequestBody TaskTo taskTo) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Task> create(@RequestBody TaskTo taskTo) {
+        log.info("Create task.");
 
         int userId = SecurityUtil.authUserId();
         User user= userService.get(userId);
@@ -83,6 +93,7 @@ public class TaskRestController {
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void completed(@PathVariable int id, @RequestParam boolean completed) {
+        log.info("Complete task by id {}.", id);
         int userId = SecurityUtil.authUserId();
         taskService.getDone(id, userId, completed);
     }
