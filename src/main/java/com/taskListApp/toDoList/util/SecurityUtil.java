@@ -1,5 +1,8 @@
 package com.taskListApp.toDoList.util;
 
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class SecurityUtil {
     private static int id = 100000;
 

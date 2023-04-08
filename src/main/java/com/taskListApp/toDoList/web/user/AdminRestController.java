@@ -55,4 +55,17 @@ public class AdminRestController {
     public void isEnable(@PathVariable int id, @RequestParam boolean enabled) {
         userService.isEnable(id, enabled);
     }
+
+
+    @PatchMapping("/{id}/set-role")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void setRole(@PathVariable int id) {
+        userService.setAdminRole(id);
+    }
+
+    @PatchMapping("/{id}/remove-role")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeRole(@PathVariable int id) {
+        userService.removeAdminRole(id);
+    }
 }

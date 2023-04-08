@@ -26,8 +26,8 @@ public class Task extends AbstractBaseEntity {
 
     @Column(name = "description")
     private String description;
-    @Column(name = "completed")
-    private boolean completed = false;
+    @Column(name = "completed", columnDefinition = "false")
+    private boolean completed;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
