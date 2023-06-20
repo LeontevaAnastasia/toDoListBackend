@@ -4,10 +4,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -15,22 +12,26 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @Table(name = "users")
 public class User extends AbstractBaseEntity {
     @Column(name = "name")
+    @NotBlank
     @Size(min =1, max = 128)
     private String name;
 
     @Column(name = "email")
     @Email
-    @NotEmpty
+    @NotBlank
     @Size(min=1, max = 128)
     private String email;
 
     @Column(name = "password")
+    @NotBlank
     @Size(min = 4, max = 100)
     private String password;
+
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
     private boolean enabled = true;
 
@@ -45,6 +46,7 @@ public class User extends AbstractBaseEntity {
     @ElementCollection(fetch = FetchType.EAGER)
     @JoinColumn(name = "id") //https://stackoverflow.com/a/62848296/548473
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
     private Set<Role> roles;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
@@ -59,16 +61,5 @@ public class User extends AbstractBaseEntity {
         this.registered = registered;
         this.enabled = enabled;
         this.roles=roles;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email=" + email +
-                ", name=" + name +
-                ", enabled=" + enabled +
-                ", roles=" + roles +
-                '}';
     }
 }

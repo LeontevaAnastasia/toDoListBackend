@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.taskListApp.toDoList.HasId;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 
@@ -22,6 +23,14 @@ public abstract class AbstractBaseEntity implements HasId {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     protected Integer id;
 
+    public int id() {
+        Assert.notNull(id, "Entity must have id");
+        return id;
+    }
+
+
+
+    @Override
     @JsonIgnore
     public boolean isNew() {
         return this.id == null;
@@ -48,5 +57,5 @@ public abstract class AbstractBaseEntity implements HasId {
     public int hashCode() {
         return id == null ? 0 : id;
     }
-    }
+}
 

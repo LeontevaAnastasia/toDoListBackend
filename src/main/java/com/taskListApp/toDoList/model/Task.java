@@ -27,8 +27,9 @@ public class Task extends AbstractBaseEntity {
 
     @Column(name = "description")
     private String description;
-    @Column(name = "completed", columnDefinition = "false")
-    private boolean completed;
+
+    @Column(name = "is_completed", columnDefinition = "false")
+    private boolean isCompleted;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
@@ -36,14 +37,13 @@ public class Task extends AbstractBaseEntity {
     private User user;
 
     @Column(name = "date_time_complete")
-    @NotNull
     LocalDateTime dateTimeComplete;
 
     public Task(Integer id, String header, String description, boolean completed, User user, LocalDateTime dateTimeComplete) {
         super(id);
         this.header = header;
         this.description = description;
-        this.completed = completed;
+        this.isCompleted = completed;
         this.user = user;
         this.dateTimeComplete = dateTimeComplete;
     }

@@ -3,6 +3,7 @@ package com.taskListApp.toDoList.service;
 import com.taskListApp.toDoList.model.Task;
 import com.taskListApp.toDoList.repository.TaskRepository;
 import com.taskListApp.toDoList.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -10,11 +11,12 @@ import java.util.List;
 
 import static com.taskListApp.toDoList.util.ValidationUtil.checkNotFoundWithId;
 
+@AllArgsConstructor
 @Service
 public class TaskService {
 
-    TaskRepository taskRepository;
-    UserRepository userRepository;
+    private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
 
     public Task create(Task task, int userId) {
         return saveTask(task, userId);

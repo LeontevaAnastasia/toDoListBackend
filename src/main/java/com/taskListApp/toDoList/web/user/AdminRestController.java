@@ -4,6 +4,7 @@ package com.taskListApp.toDoList.web.user;
 import com.taskListApp.toDoList.model.User;
 import com.taskListApp.toDoList.service.UserService;
 import com.taskListApp.toDoList.to.UserTo;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,16 +16,13 @@ import java.util.List;
 import static com.taskListApp.toDoList.util.ValidationUtil.assureIdConsistent;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping(value = "/rest/admin/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestController {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     private final UserService userService;
-
-    public AdminRestController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping
     public List<User> getAll() {
@@ -54,9 +52,9 @@ public class AdminRestController {
     }
 
     @GetMapping("/by-email")
-    public User findByEmailIgnoringCase(@RequestParam String email){
+    public User findByEmail(@RequestParam String email){
         log.info("Find user by email {}.", email);
-        return userService.findByEmailIgnoringCase(email).orElse(null);
+        return userService.findByEmail(email).orElse(null);
     }
 
     @PatchMapping("/{id}")

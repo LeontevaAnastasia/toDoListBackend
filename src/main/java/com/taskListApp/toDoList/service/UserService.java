@@ -6,6 +6,7 @@ import com.taskListApp.toDoList.repository.UserRepository;
 import com.taskListApp.toDoList.to.UserTo;
 import com.taskListApp.toDoList.util.exception.IncorrectUpdateException;
 import com.taskListApp.toDoList.util.exception.NotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,14 +18,11 @@ import static com.taskListApp.toDoList.util.UserUtil.updateFromTo;
 import static com.taskListApp.toDoList.util.ValidationUtil.checkNotFound;
 import static com.taskListApp.toDoList.util.ValidationUtil.checkNotFoundWithId;
 
+@AllArgsConstructor
 @Service
 public class UserService {
 
-   UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+   private final UserRepository userRepository;
 
     public User create(User user) {
         return userRepository.save(user);
@@ -34,8 +32,8 @@ public class UserService {
         return checkNotFoundWithId(userRepository.getUserById(id), id);
     }
 
-   public Optional<User> findByEmailIgnoringCase(String email){
-        return checkNotFound(userRepository.findByEmailIgnoreCase(email),"email=" + email);
+   public Optional<User> findByEmail(String email){
+        return checkNotFound(userRepository.findByEmail(email),"email=" + email);
     }
 
     public void delete(int id) {

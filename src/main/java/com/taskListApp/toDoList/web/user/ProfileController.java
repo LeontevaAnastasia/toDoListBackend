@@ -3,6 +3,7 @@ package com.taskListApp.toDoList.web.user;
 import com.taskListApp.toDoList.AuthorizedUser;
 import com.taskListApp.toDoList.model.User;
 import com.taskListApp.toDoList.to.UserTo;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,16 +21,13 @@ import static com.taskListApp.toDoList.util.ValidationUtil.assureIdConsistent;
 import static com.taskListApp.toDoList.util.ValidationUtil.checkNew;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping(value="/rest/profile", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProfileController {
 
     private final UserService userService;
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
-
-    public ProfileController(UserService userService) {
-        this.userService = userService;
-    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
