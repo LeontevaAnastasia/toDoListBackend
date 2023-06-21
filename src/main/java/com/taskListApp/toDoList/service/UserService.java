@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static com.taskListApp.toDoList.util.UserUtil.prepareToSave;
 import static com.taskListApp.toDoList.util.UserUtil.updateFromTo;
 import static com.taskListApp.toDoList.util.ValidationUtil.checkNotFound;
 import static com.taskListApp.toDoList.util.ValidationUtil.checkNotFoundWithId;
@@ -25,7 +26,7 @@ public class UserService {
    private final UserRepository userRepository;
 
     public User create(User user) {
-        return userRepository.save(user);
+        return userRepository.save(prepareToSave(user));
     }
 
     public User get(int id) {

@@ -1,0 +1,2 @@
+update users set password='{bcrypt}$2a$12$iaspIyYbXP6AXUJyyN4u0O4jjyxkNUwnfAifda1NDnd31bPExW5nW' where id = 100000 or id = 100001;
+update users set password='{bcrypt}$2a$12$.ufl1/c7lxU/VFOhSKQuFe6rBA0mz3UO3RKG.yuFEUewL7Jsyv.Ge' where id=100002;

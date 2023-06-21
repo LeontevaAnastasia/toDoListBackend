@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import com.taskListApp.toDoList.service.UserService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -43,20 +44,20 @@ public class ProfileController {
     }
 
     @GetMapping()
-    public User get(AuthorizedUser authUser) {
+    public User get(@AuthenticationPrincipal AuthorizedUser authUser) {
         log.info("Get user by id {}.", authUser.getId());
         return userService.get(authUser.getId());
     }
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(AuthorizedUser authUser) {
+    public void delete(@AuthenticationPrincipal AuthorizedUser authUser) {
         log.info("Delete profile id {} by user.", authUser.getId());
         userService.delete(authUser.getId());
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody UserTo userTo, AuthorizedUser authUser) {
+    public void update(@Valid @RequestBody UserTo userTo, @AuthenticationPrincipal AuthorizedUser authUser) {
         log.info("Update user to {} by user id {}.", userTo, authUser.getId());
         assureIdConsistent(userTo, authUser.getId());
         User user = authUser.getUser();

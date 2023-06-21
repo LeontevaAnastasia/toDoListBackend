@@ -1,4 +1,6 @@
 package com.taskListApp.toDoList.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -30,6 +32,7 @@ public class User extends AbstractBaseEntity {
     @Column(name = "password")
     @NotBlank
     @Size(min = 4, max = 100)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
@@ -51,6 +54,7 @@ public class User extends AbstractBaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private List<Task> tasks;
 
     public User(Integer id, String name, String email, String password, LocalDate registered, boolean enabled, Set<Role> roles) {

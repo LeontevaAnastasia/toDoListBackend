@@ -8,6 +8,8 @@ import lombok.experimental.UtilityClass;
 import java.time.LocalDate;
 import java.util.Set;
 
+import static com.taskListApp.toDoList.config.WebSecurityConfig.PASSWORD_ENCODER;
+
 @UtilityClass
 public class UserUtil {
 
@@ -24,7 +26,8 @@ public class UserUtil {
     }
 
     public static User prepareToSave(User user) {
-        user.setEmail(user.getEmail().toLowerCase());
+        user.setPassword(PASSWORD_ENCODER.encode(user.getPassword()));
+        user.setEmail(user.getEmail());
         return user;
     }
 }
