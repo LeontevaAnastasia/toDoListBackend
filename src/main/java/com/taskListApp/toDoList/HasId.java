@@ -2,7 +2,9 @@ package com.taskListApp.toDoList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public interface HasId {
+import java.io.Serializable;
+
+public interface HasId extends Serializable {
 
     Integer getId();
 

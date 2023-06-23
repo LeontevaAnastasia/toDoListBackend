@@ -10,3 +10,17 @@ services:
       POSTGRES_USER: admin
       POSTGRES_DB: toDoList-api
 
+  redis:
+    hostname: redis
+    restart: always
+    container_name: redis
+    image: 'redis'
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_storage:/data
+
+volumes:
+  db_storage:
+  redis_storage:
+
