@@ -23,7 +23,7 @@ public class TaskService {
     }
 
     public void delete(int id, int userId ) {
-        checkNotFoundWithId(taskRepository.delete(id, userId), id);
+        checkNotFoundWithId((taskRepository.delete(id, userId)!= 0), id);
     }
 
     public Task get(int id, int userId) {
