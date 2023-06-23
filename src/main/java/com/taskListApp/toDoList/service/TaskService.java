@@ -3,6 +3,7 @@ package com.taskListApp.toDoList.service;
 import com.taskListApp.toDoList.model.Task;
 import com.taskListApp.toDoList.repository.TaskRepository;
 import com.taskListApp.toDoList.repository.UserRepository;
+import com.taskListApp.toDoList.util.exception.SaveEmptyFieldException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,9 @@ public class TaskService {
     private final UserRepository userRepository;
 
     public Task create(Task task, int userId) {
+        if(task.getHeader().isBlank()){
+            throw new SaveEmptyFieldException("Header must not be empty");
+        }
         return saveTask(task, userId);
     }
 

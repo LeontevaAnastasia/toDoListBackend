@@ -8,13 +8,24 @@ import java.time.LocalDateTime;
 @UtilityClass
 public class TaskUtil {
     public static Task updateFromTo(Task task, TaskTo taskTo) {
-        task.setHeader(taskTo.getHeader());
-        task.setDescription(taskTo.getDescription());
+        if(!taskTo.getHeader().isBlank()) {
+            task.setHeader(taskTo.getHeader());
+        }
+        if(!taskTo.getDescription().isBlank()) {
+            task.setDescription(taskTo.getDescription());
+        }
+
+        task.setCompleted(taskTo.isCompleted());
+          if(taskTo.isCompleted()){
+              LocalDateTime currentDate = LocalDateTime.now();
+            task.setDateTimeComplete(currentDate);
+        } else task.setDateTimeComplete(null);
+
         return task;
     }
 
     public static Task createNewFromTo(TaskTo taskTo, User user) {
-        return new Task(null, taskTo.getHeader(), taskTo.getDescription(), false, user, LocalDateTime.now());
+        return new Task(null, taskTo.getHeader(), taskTo.getDescription(), false, user, null);
     }
 }
 

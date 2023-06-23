@@ -61,18 +61,18 @@ public class TaskRestController {
         return taskService.getAll(userId);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody TaskTo taskTo, @PathVariable int id) {
+    public void update(@ModelAttribute TaskTo taskTo, @PathVariable int id) {
         log.info("update task by id {}.", id);
         int userId = SecurityUtil.authUserId();
         assureIdConsistent(taskTo, id);
         taskService.update(TaskUtil.updateFromTo((taskService.get(id, userId)) ,taskTo) , userId);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Task> create(@RequestBody TaskTo taskTo) {
+    public ResponseEntity<Task> create(@ModelAttribute TaskTo taskTo) {
         log.info("Create task.");
 
         int userId = SecurityUtil.authUserId();
@@ -87,15 +87,5 @@ public class TaskRestController {
 
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
-
-    @PatchMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void completed(@PathVariable int id, @RequestParam boolean completed) {
-        log.info("Complete task by id {}.", id);
-        int userId = SecurityUtil.authUserId();
-        taskService.getDone(id, userId, completed);
-    }
-
-
 
 }

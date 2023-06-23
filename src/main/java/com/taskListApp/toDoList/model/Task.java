@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -21,7 +18,6 @@ import java.time.LocalDateTime;
 public class Task extends AbstractBaseEntity {
 
     @Column(name = "header")
-    @NotBlank
     @Size(min=1, max = 30)
     private String header;
 
@@ -39,11 +35,11 @@ public class Task extends AbstractBaseEntity {
     @Column(name = "date_time_complete")
     LocalDateTime dateTimeComplete;
 
-    public Task(Integer id, String header, String description, boolean completed, User user, LocalDateTime dateTimeComplete) {
+    public Task(Integer id, String header, String description, boolean isCompleted, User user, LocalDateTime dateTimeComplete) {
         super(id);
         this.header = header;
         this.description = description;
-        this.isCompleted = completed;
+        this.isCompleted = isCompleted;
         this.user = user;
         this.dateTimeComplete = dateTimeComplete;
     }

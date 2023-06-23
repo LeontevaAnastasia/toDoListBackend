@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -16,11 +17,11 @@ import java.io.Serializable;
 public class TaskTo extends AbstractBaseTo implements Serializable {
 
 
-    @NotBlank
     @Size(min=1, max = 30)
     private String header;
 
     private String description;
 
-    private boolean completed = false;
+
+     private boolean isCompleted;
 }
