@@ -3,7 +3,6 @@ package com.taskListApp.toDoList.web.user;
 
 import com.taskListApp.toDoList.model.User;
 import com.taskListApp.toDoList.service.UserService;
-import com.taskListApp.toDoList.to.UserTo;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.taskListApp.toDoList.util.ValidationUtil.assureIdConsistent;
 
 @RestController
 @AllArgsConstructor
@@ -34,14 +32,6 @@ public class AdminRestController {
     public User get(@PathVariable int id) {
         log.info("Get user by id {}.", id);
         return userService.get(id);
-    }
-
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody UserTo userTo, @PathVariable int id) {
-        log.info("Update user by id {}.", id);
-        assureIdConsistent(userTo, id);
-        userService.update(userTo);
     }
 
     @DeleteMapping(value = "/{id}")

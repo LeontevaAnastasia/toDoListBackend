@@ -3,7 +3,6 @@ package com.taskListApp.toDoList.service;
 import com.taskListApp.toDoList.model.Role;
 import com.taskListApp.toDoList.model.User;
 import com.taskListApp.toDoList.repository.UserRepository;
-import com.taskListApp.toDoList.to.UserTo;
 import com.taskListApp.toDoList.util.exception.IncorrectUpdateException;
 import com.taskListApp.toDoList.util.exception.NotFoundException;
 import lombok.AllArgsConstructor;
@@ -45,9 +44,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void update(UserTo userTo) {
-        User user = get(userTo.getId());
-        userRepository.save(updateFromTo(user, userTo));
+    public void update(User user) {
+        checkNotFoundWithId(userRepository.save(user), user.getId());
 
     }
 

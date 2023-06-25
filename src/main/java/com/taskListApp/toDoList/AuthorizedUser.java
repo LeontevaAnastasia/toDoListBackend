@@ -1,34 +1,34 @@
 package com.taskListApp.toDoList;
 
 import com.taskListApp.toDoList.model.User;
+import com.taskListApp.toDoList.to.UserTo;
+import com.taskListApp.toDoList.util.UserUtil;
 
 public class AuthorizedUser extends org.springframework.security.core.userdetails.User  {
 
     private static final long serialVersionUID = 1L;
-
-    private User user;
+    private UserTo userTo;
 
     public AuthorizedUser(User user) {
         super(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true, user.getRoles());
-        this.user = user;
+        setTo(UserUtil.asTo(user));
     }
-
     public int getId() {
-        return user.id();
+        return userTo.id();
     }
 
-    public void set(User newUser) {
-        newUser.setPassword(null);
-        user = newUser;
+    public void setTo(UserTo newUserTo) {
+        newUserTo.setPassword(null);
+        userTo = newUserTo;
     }
 
-    public User getUser() {
-        return user;
+    public UserTo getUserTo() {
+        return userTo;
     }
 
     @Override
     public String toString() {
-        return user.toString();
+        return userTo.toString();
     }
 
 

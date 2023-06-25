@@ -14,7 +14,6 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @Table(name = "users")
 public class User extends AbstractBaseEntity {
@@ -23,7 +22,7 @@ public class User extends AbstractBaseEntity {
     @Size(min =1, max = 128)
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     @Email
     @NotBlank
     @Size(min=1, max = 128)

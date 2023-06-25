@@ -24,7 +24,7 @@ public class Task extends AbstractBaseEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "is_completed", columnDefinition = "false")
+    @Column(name = "is_completed", columnDefinition = "bool default false")
     private boolean isCompleted;
 
     @ManyToOne(fetch = FetchType.EAGER)

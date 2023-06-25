@@ -1,8 +1,16 @@
 package com.taskListApp.toDoList.web.user;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatchException;
+import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import com.taskListApp.toDoList.AuthorizedUser;
 import com.taskListApp.toDoList.model.User;
 import com.taskListApp.toDoList.to.UserTo;
+import com.taskListApp.toDoList.util.UserUtil;
+import com.taskListApp.toDoList.util.exception.NotFoundException;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +26,6 @@ import javax.validation.Valid;
 import java.net.URI;
 
 import static com.taskListApp.toDoList.util.UserUtil.*;
-import static com.taskListApp.toDoList.util.ValidationUtil.assureIdConsistent;
 import static com.taskListApp.toDoList.util.ValidationUtil.checkNew;
 
 @RestController
@@ -29,6 +36,7 @@ public class ProfileController {
     private final UserService userService;
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -55,12 +63,26 @@ public class ProfileController {
         userService.delete(authUser.getId());
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody UserTo userTo, @AuthenticationPrincipal AuthorizedUser authUser) {
-        log.info("Update user to {} by user id {}.", userTo, authUser.getId());
-        assureIdConsistent(userTo, authUser.getId());
-        User user = authUser.getUser();
-        userService.create(updateFromTo(user, userTo));
+    @PatchMapping(consumes = "application/json-patch+json")
+    public ResponseEntity<UserTo> update(@RequestBody JsonMergePatch patch,
+                                         @Parameter(hidden = true)@AuthenticationPrincipal AuthorizedUser authUser) {
+        try {
+            log.info("Update user with id {}.", authUser.getId());
+            User user = userService.get(authUser.getId());//юзера находит
+            UserTo userTo = UserUtil.asTo(user);
+            UserTo userPatched = applyPatchToUser(patch, userTo);
+            userService.update(UserUtil.updateFromTo(user, userPatched)); // ошибка при сохранении
+            return ResponseEntity.ok(userTo);
+        } catch (JsonPatchException | JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    private UserTo applyPatchToUser(
+            JsonMergePatch patch, UserTo targetUserTo) throws JsonPatchException, JsonProcessingException {
+        JsonNode patched = patch.apply(objectMapper.convertValue(targetUserTo, JsonNode.class));
+        return objectMapper.treeToValue(patched, UserTo.class);
     }
 }

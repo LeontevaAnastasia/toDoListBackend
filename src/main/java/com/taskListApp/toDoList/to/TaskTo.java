@@ -24,4 +24,11 @@ public class TaskTo extends AbstractBaseTo implements Serializable {
 
 
      private boolean isCompleted;
+
+    public TaskTo(Integer id, String header, String description, boolean isCompleted) {
+        super(id);
+        this.header=header;
+        this.description=description;
+        this.isCompleted=isCompleted;
+    }
 }
