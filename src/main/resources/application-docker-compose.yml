@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: docker-compose
+  rabbitmq:
+    host: rabbitmq
+  datasource:
+    url: jdbc:postgresql://db:5444/toDoList-api
+    username: admin
+    password: admin
+  redis:
+    host: redis
+    port: 6379
+
+volumes:
+  db_storage:

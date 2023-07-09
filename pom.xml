@@ -93,6 +93,12 @@
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 
+		<!--RabbitMq-->
+		<dependency>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit-test</artifactId>
+		</dependency>
+
 
 		<dependency>
 			<groupId>com.github.java-json-tools</groupId>

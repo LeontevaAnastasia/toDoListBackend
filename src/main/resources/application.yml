@@ -1,8 +1,30 @@
 spring:
+  mvc:
+   hidden-method:
+      filter:
+       enabled: true
+  jpa:
+    open-in-view: true
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    properties:
+      hibernate:
+       show_sql: true
   datasource:
+    driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5444/toDoList-api
     username: admin
     password: admin
+  flyway:
+    schemas: toDoList-api
+    user: admin
+    password: admin
 
-  session:
-    store-type: redis
+rabbit:
+  queue: EMAIL_SENDING_TASKS
+  exchange: exchange
+  routing-key: TaskTrackerKey
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always

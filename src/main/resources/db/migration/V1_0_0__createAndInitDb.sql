@@ -44,9 +44,9 @@ ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 
 INSERT INTO users (name, email, password)
-VALUES ('User', 'user@gmail.com', 'password'),
-       ('User2', 'user2@gmail.com', 'password'),
-       ('Admin', 'admin@gmail.com', 'admin');
+VALUES ('User', 'user@gmail.com', '{bcrypt}$2a$12$iaspIyYbXP6AXUJyyN4u0O4jjyxkNUwnfAifda1NDnd31bPExW5nW'),
+       ('User2', 'user2@gmail.com', '{bcrypt}$2a$12$iaspIyYbXP6AXUJyyN4u0O4jjyxkNUwnfAifda1NDnd31bPExW5nWd'),
+       ('Admin', 'admin@gmail.com', '{bcrypt}$2a$12$.ufl1/c7lxU/VFOhSKQuFe6rBA0mz3UO3RKG.yuFEUewL7Jsyv.Ge');
 
 INSERT INTO user_roles (role, user_id)
 VALUES ('USER', 100000),

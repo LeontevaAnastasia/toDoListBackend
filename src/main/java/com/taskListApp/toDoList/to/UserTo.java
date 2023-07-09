@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class UserTo extends AbstractBaseTo implements HasId, Serializable {
+public class UserTo extends AbstractBaseTo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

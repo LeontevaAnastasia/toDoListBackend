@@ -38,7 +38,7 @@ public class TaskRestController {
     private final UserService userService;
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
 
 
     @GetMapping("/{id}")

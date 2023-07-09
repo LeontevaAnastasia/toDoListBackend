@@ -7,8 +7,10 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import com.taskListApp.toDoList.AuthorizedUser;
 import com.taskListApp.toDoList.model.User;
+import com.taskListApp.toDoList.service.emailService.EmailSenderService;
 import com.taskListApp.toDoList.to.UserTo;
 import com.taskListApp.toDoList.util.UserUtil;
+import com.taskListApp.toDoList.util.ValidationUtil;
 import com.taskListApp.toDoList.util.exception.NotFoundException;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
@@ -36,7 +38,8 @@ public class ProfileController {
     private final UserService userService;
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
+    private EmailSenderService emailSenderService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -48,6 +51,7 @@ public class ProfileController {
                 .path("/rest/profile")
                 .build()
                 .toUri();
+        emailSenderService.sendEmail(created);
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
