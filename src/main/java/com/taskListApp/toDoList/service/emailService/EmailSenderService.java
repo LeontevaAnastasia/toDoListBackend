@@ -4,11 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taskListApp.toDoList.model.User;
 import com.taskListApp.toDoList.service.emailService.rabbitmq.RabbitProducer;
-import com.taskListApp.toDoList.to.EmailDTO;
+import com.taskListApp.toDoList.to.EmailTo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,8 +18,7 @@ public class EmailSenderService {
     private final RabbitProducer rabbitProducer;
 
     public void sendEmail(User user) {
-       // List<User> users = new ArrayList<>(List.of(user));
-        List<EmailDTO> emailMessages = emailCreatorService.getEmailMessages(user);
+        List<EmailTo> emailMessages = emailCreatorService.getEmailMessages(user);
 
         ObjectMapper mapper = new ObjectMapper();
         try {

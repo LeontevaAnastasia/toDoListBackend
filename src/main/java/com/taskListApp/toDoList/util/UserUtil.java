@@ -8,10 +8,11 @@ import lombok.experimental.UtilityClass;
 import java.time.LocalDate;
 import java.util.Set;
 
-import static com.taskListApp.toDoList.config.WebSecurityConfig.PASSWORD_ENCODER;
 
 @UtilityClass
 public class UserUtil {
+
+
 
     public static User updateFromTo(User user, UserTo userTo) {
       user.setName(userTo.getName());
@@ -23,12 +24,6 @@ public class UserUtil {
     public static User createNewFromTo(UserTo userTo) {
         Set<Role> roleSet = Set.of(Role.USER);
         return new User(null, userTo.getName(), userTo.getEmail(), userTo.getPassword(), LocalDate.now(), true, roleSet);
-    }
-
-    public static User prepareToSave(User user) {
-        user.setPassword(PASSWORD_ENCODER.encode(user.getPassword()));
-        user.setEmail(user.getEmail());
-        return user;
     }
 
     public static UserTo asTo(User user) {

@@ -6,6 +6,7 @@ import com.taskListApp.toDoList.repository.UserRepository;
 import com.taskListApp.toDoList.util.exception.IncorrectUpdateException;
 import com.taskListApp.toDoList.util.exception.NotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,8 +14,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.taskListApp.toDoList.util.UserUtil.prepareToSave;
-import static com.taskListApp.toDoList.util.UserUtil.updateFromTo;
 import static com.taskListApp.toDoList.util.ValidationUtil.checkNotFound;
 import static com.taskListApp.toDoList.util.ValidationUtil.checkNotFoundWithId;
 
@@ -23,9 +22,12 @@ import static com.taskListApp.toDoList.util.ValidationUtil.checkNotFoundWithId;
 public class UserService {
 
    private final UserRepository userRepository;
+   BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public User create(User user) {
-        return userRepository.save(prepareToSave(user));
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setEmail(user.getEmail());
+        return userRepository.save(user);
     }
 
     public User get(int id) {

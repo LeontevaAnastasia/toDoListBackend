@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.access.method.P;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,8 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 import java.util.Optional;
 
@@ -34,14 +32,13 @@ import static com.taskListApp.toDoList.model.Role.USER;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserRepository userRepository;
 
+   @Bean
+   public BCryptPasswordEncoder bCryptPasswordEncoder() {
+       return new BCryptPasswordEncoder();
+   }
 
-    public static final PasswordEncoder PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -57,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(PASSWORD_ENCODER);
+        authProvider.setPasswordEncoder(bCryptPasswordEncoder());
         return authProvider;
     }
 
@@ -69,6 +66,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/rest/admin/**").hasRole(ADMIN.name())
                 .antMatchers("/rest/profile/**").hasRole(USER.name())
                 .and().formLogin()
+                .defaultSuccessUrl("/rest/profile")
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/rest/profile")
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .and().csrf().disable();
     }

@@ -1,7 +1,7 @@
 package com.taskListApp.toDoList.service.emailService;
 
 import com.taskListApp.toDoList.model.User;
-import com.taskListApp.toDoList.to.EmailDTO;
+import com.taskListApp.toDoList.to.EmailTo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +14,10 @@ public class EmailCreatorService {
 
     private final EmailCreator emailCreator;
 
-    public List<EmailDTO> getEmailMessages(User user) {
-        List<EmailDTO> emailMessages = new ArrayList<>();
+    public List<EmailTo> getEmailMessages(User user) {
+        List<EmailTo> emailMessages = new ArrayList<>();
 
-            EmailDTO emailDTO = new EmailDTO();
+            EmailTo emailDTO = new EmailTo();
             emailDTO.setRecipientAddress(emailCreator.createEmailAddress(user));
             emailDTO.setTitle(emailCreator.createEmailTitle(user));
             emailDTO.setText(emailCreator.createEmailText(user));
