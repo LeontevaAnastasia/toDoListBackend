@@ -14,15 +14,12 @@ public class EmailCreatorService {
 
     private final EmailCreator emailCreator;
 
-    public List<EmailTo> getEmailMessages(User user) {
-        List<EmailTo> emailMessages = new ArrayList<>();
+    public EmailTo getEmailMessages(User user) {
+            EmailTo emailTo = new EmailTo();
+            emailTo.setRecipientAddress(emailCreator.createEmailAddress(user));
+            emailTo.setTitle(emailCreator.createEmailTitle(user));
+            emailTo.setText(emailCreator.createEmailText(user));
 
-            EmailTo emailDTO = new EmailTo();
-            emailDTO.setRecipientAddress(emailCreator.createEmailAddress(user));
-            emailDTO.setTitle(emailCreator.createEmailTitle(user));
-            emailDTO.setText(emailCreator.createEmailText(user));
-            emailMessages.add(emailDTO);
-
-        return emailMessages;
+        return emailTo;
     }
 }

@@ -18,11 +18,11 @@ public class EmailSenderService {
     private final RabbitProducer rabbitProducer;
 
     public void sendEmail(User user) {
-        List<EmailTo> emailMessages = emailCreatorService.getEmailMessages(user);
+        EmailTo emailMessage = emailCreatorService.getEmailMessages(user);
 
         ObjectMapper mapper = new ObjectMapper();
         try {
-            String json = mapper.writeValueAsString(emailMessages);
+            String json = mapper.writeValueAsString(emailMessage);
             rabbitProducer.sendMessage(json);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

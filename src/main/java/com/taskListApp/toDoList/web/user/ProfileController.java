@@ -10,6 +10,7 @@ import com.taskListApp.toDoList.model.User;
 import com.taskListApp.toDoList.service.emailService.EmailSenderService;
 import com.taskListApp.toDoList.to.UserTo;
 import com.taskListApp.toDoList.util.UserUtil;
+import com.taskListApp.toDoList.util.exception.DuplicateEmailException;
 import com.taskListApp.toDoList.util.exception.NotFoundException;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
@@ -45,6 +46,9 @@ public class ProfileController {
     public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
         log.info("Create profile");
         checkNew(userTo);
+        if(userService.findByEmail(userTo.getEmail()).orElse(null) != null){
+            throw  new DuplicateEmailException("Email is already exist");
+        }
         User created = userService.create(createNewFromTo(userTo));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/rest/profile")
