@@ -2,6 +2,10 @@ spring:
   config:
     activate:
       on-profile: ide
+  redis:
+    host: localhost
+    port: 6379
+
   rabbitmq:
     host: localhost
     port: 5672
@@ -9,6 +13,3 @@ spring:
     url: jdbc:postgresql://localhost:5444/toDoList-api
     username: admin
     password: admin
-  redis:
-    host: localhost
-    port: 6379

@@ -44,9 +44,9 @@ ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 
 INSERT INTO users (name, email, password)
-VALUES ('User', 'user@gmail.com', '{bcrypt}$2a$12$iaspIyYbXP6AXUJyyN4u0O4jjyxkNUwnfAifda1NDnd31bPExW5nW'),
-       ('User2', 'user2@gmail.com', '{bcrypt}$2a$12$iaspIyYbXP6AXUJyyN4u0O4jjyxkNUwnfAifda1NDnd31bPExW5nWd'),
-       ('Admin', 'admin@gmail.com', '{bcrypt}$2a$12$.ufl1/c7lxU/VFOhSKQuFe6rBA0mz3UO3RKG.yuFEUewL7Jsyv.Ge');
+VALUES ('User', 'user@gmail.com', '$2a$10$rRWCsVtQZa3BX.uaeGhspuBnBBpF7Atlpk2IlEIaig2p7nIo2X.8G'),
+       ('User2', 'user2@gmail.com', '$2a$10$rRWCsVtQZa3BX.uaeGhspuBnBBpF7Atlpk2IlEIaig2p7nIo2X.8G'),
+       ('Admin', 'admin@gmail.com', '$2a$10$hMsux0kFJre4xtnbfDi.luSTHYldjKgCkbZTugINBIfk0Mv.lF6qG');
 
 INSERT INTO user_roles (role, user_id)
 VALUES ('USER', 100000),
@@ -55,6 +55,5 @@ VALUES ('USER', 100000),
 
 
 INSERT INTO tasks (header, description, user_id)
-VALUES ('Docker', 'Прочитать документацию, посмотреть обучающие видео', 100000),
-       ('Писать проект todoList', 'Разобраться с RabbitMq', 100001);
-
+VALUES ('Docker', 'Learn Docker', 100000),
+       ('RabbitMQ', 'Make project with rabbitmq', 100001);

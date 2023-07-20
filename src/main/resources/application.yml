@@ -14,10 +14,7 @@ spring:
     url: jdbc:postgresql://localhost:5444/toDoList-api
     username: admin
     password: admin
-  flyway:
-    schemas: toDoList-api
-    user: admin
-    password: admin
+
 
 rabbit:
   queue: EMAIL_SENDING_TASKS
